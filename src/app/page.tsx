@@ -1,108 +1,79 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  ClientOnly,
-  HStack,
-  Heading,
-  Progress,
-  RadioGroup,
-  Skeleton,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Container, Flex, Input, Text } from '@chakra-ui/react';
 
 import Image from 'next/image';
 
-import { gql } from '@apollo/client';
-
-import { query } from '@/components/apollo';
 import { ColorModeButton } from '@/components/ui/color-mode';
 
-const GQL_MEDIA_QUERY = gql`
-  query Media($search: String) {
-    Media(search: $search) {
-      bannerImage
-      coverImage {
-        extraLarge
-        large
-        medium
-        color
-      }
-      duration
-      genres
-      id
-      siteUrl
-      title {
-        english
-      }
-      description
-    }
-  }
-`;
-
 export default async function Page() {
-  const { data, loading, error } = await query({
-    query: GQL_MEDIA_QUERY,
-    variables: {
-      search: 'Naruto',
-    },
-  });
-  console.debug('QUERY', { data, loading, error });
-
-  // render
   return (
-    <Box textAlign='center' fontSize='xl' pt='30vh'>
-      <VStack gap='8'>
-        <Image alt='chakra logo' src='/globe.svg' width='80' height='80' />
-        <Heading size='2xl' letterSpacing='tight'>
-          Welcome to Chakra UI v3 + Next.js (App)
-        </Heading>
+    <Flex direction='column' minH='100vh'>
+      {/* Header */}
+      <Box w='full' borderBottomWidth={1} py={4} px={6}>
+        <Container maxW='7xl'>
+          <Flex justify='space-between' align='center'>
+            {/* Brand/Logo */}
+            <Flex gap={3} align='center'>
+              <Box boxSize={10} position='relative'>
+                <Image src='/images/leonardo-logo.png' alt='Leonardo Logo' width='64' height='64' />
+              </Box>
+              <Text fontSize='xl' fontWeight='bold'>
+                Leonardo.Anime
+              </Text>
+            </Flex>
 
-        <HStack gap='10'>
-          <Checkbox.Root defaultChecked>
-            <Checkbox.HiddenInput />
-            <Checkbox.Control>
-              <Checkbox.Indicator />
-            </Checkbox.Control>
-            <Checkbox.Label>Checkbox</Checkbox.Label>
-          </Checkbox.Root>
+            {/* Search Box */}
+            <Box flex={1} maxW='2xl' mx={8}>
+              <Input
+                placeholder='Search for anime, manga or characters...'
+                size='lg'
+                variant='outline'
+                borderRadius='full'
+              />
+            </Box>
 
-          <RadioGroup.Root display='inline-flex' defaultValue='1'>
-            <RadioGroup.Item value='1' mr='2'>
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemControl>
-                <RadioGroup.ItemIndicator />
-              </RadioGroup.ItemControl>
-              <RadioGroup.ItemText lineHeight='1'>Radio</RadioGroup.ItemText>
-            </RadioGroup.Item>
-
-            <RadioGroup.Item value='2'>
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemControl>
-                <RadioGroup.ItemIndicator />
-              </RadioGroup.ItemControl>
-              <RadioGroup.ItemText lineHeight='1'>Radio</RadioGroup.ItemText>
-            </RadioGroup.Item>
-          </RadioGroup.Root>
-        </HStack>
-
-        <Progress.Root width='300px' value={65} striped>
-          <Progress.Track>
-            <Progress.Range />
-          </Progress.Track>
-        </Progress.Root>
-
-        <HStack>
-          <Button>Let&apos;s go!</Button>
-          <Button variant='outline'>bun install @chakra-ui/react</Button>
-        </HStack>
-      </VStack>
-
-      <Box pos='absolute' top='4' right='4'>
-        <ClientOnly fallback={<Skeleton w='10' h='10' rounded='md' />}>
-          <ColorModeButton />
-        </ClientOnly>
+            {/* Profile & Theme */}
+            <Flex gap={4} align='center'>
+              <Flex direction='column' align='flex-end'>
+                <Text fontWeight='semibold'>Guest User</Text>
+                <Text fontSize='sm' color='gray.500'>
+                  My Profile
+                </Text>
+              </Flex>
+              <ColorModeButton />
+            </Flex>
+          </Flex>
+        </Container>
       </Box>
-    </Box>
+
+      {/* Main Content */}
+      <Box flex={1} w='full' py={12}>
+        <Container maxW='7xl'>
+          <Flex direction='column' gap={8}>
+            <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight='bold' textAlign='center'>
+              Discover Your Next Favorite Anime & Manga
+            </Text>
+            <Text color='gray.500' textAlign='center' fontSize='lg'>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat.
+            </Text>
+          </Flex>
+        </Container>
+      </Box>
+
+      {/* Footer */}
+      <Box w='full' py={6} borderTopWidth={1}>
+        <Container maxW='7xl'>
+          <Flex direction='column' gap={2} align='center'>
+            <Text fontSize='sm' color='gray.500'>
+              Leonardo.AI coding challenge v3.5
+            </Text>
+            <Text fontSize='sm' color='gray.500'>
+              Created by Rakesh Ayyaswami
+            </Text>
+          </Flex>
+        </Container>
+      </Box>
+    </Flex>
   );
 }
