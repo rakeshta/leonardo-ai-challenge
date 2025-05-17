@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { Inter } from 'next/font/google';
 
+import { ApolloWrapper } from '@/components/apollo';
 import { Provider } from '@/components/ui/provider';
 
 const inter = Inter({
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en' className={inter.className} suppressHydrationWarning>
       <head />
       <body>
-        <Provider>{children}</Provider>
+        <Provider>
+          <ApolloWrapper>{children}</ApolloWrapper>
+        </Provider>
       </body>
     </html>
   );

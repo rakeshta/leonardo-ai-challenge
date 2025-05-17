@@ -13,9 +13,43 @@ import {
 
 import Image from 'next/image';
 
+import { gql } from '@apollo/client';
+
+import { query } from '@/components/apollo';
 import { ColorModeButton } from '@/components/ui/color-mode';
 
+const GQL_MEDIA_QUERY = gql`
+  query Media($search: String) {
+    Media(search: $search) {
+      bannerImage
+      coverImage {
+        extraLarge
+        large
+        medium
+        color
+      }
+      duration
+      genres
+      id
+      siteUrl
+      title {
+        english
+      }
+      description
+    }
+  }
+`;
+
 export default async function Page() {
+  const { data, loading, error } = await query({
+    query: GQL_MEDIA_QUERY,
+    variables: {
+      search: 'Naruto',
+    },
+  });
+  console.debug('QUERY', { data, loading, error });
+
+  // render
   return (
     <Box textAlign='center' fontSize='xl' pt='30vh'>
       <VStack gap='8'>
