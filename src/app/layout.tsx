@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { ApolloWrapper } from '@/components/apollo';
-import { Provider } from '@/components/ui/provider';
+import { Provider } from '@/components/chakra-ui/provider';
 
 const inter = Inter({
   subsets: ['latin'],

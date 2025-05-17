@@ -2,7 +2,7 @@ import { Box, Container, Flex, Input, Text } from '@chakra-ui/react';
 
 import Image from 'next/image';
 
-import { ColorModeButton } from '@/components/ui/color-mode';
+import { ColorModeButton } from '@/components/chakra-ui/color-mode';
 
 export default async function Page() {
   return (
