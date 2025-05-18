@@ -14,7 +14,6 @@ export interface MediaDetailsDialogProps {
 export function MediaDetailsDialog({ mediaId, onClose }: MediaDetailsDialogProps) {
   // fetch media details
   const { data: media, loading, error } = useMediaDetails({ mediaId });
-  console.debug('--paged media details query', { media, loading, error });
 
   // do not render if mediaId is not provided
   if (!mediaId) return null;

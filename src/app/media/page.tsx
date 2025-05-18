@@ -3,36 +3,45 @@
 import Link from 'next/link';
 import { redirect, useSearchParams } from 'next/navigation';
 
-import { Alert, Box, Grid, GridItem, Heading, Stack, Text } from '@chakra-ui/react';
+import { Alert, Box, Grid, GridItem, Stack, Text } from '@chakra-ui/react';
 
 import { MediaCover } from '@/components/content/MediaCover';
 import { MediaDetailsDialog } from '@/components/content/MediaDetailsDialog';
 import { PageFrame } from '@/components/layout/PageFrame';
+import { Paginator } from '@/components/widgets/Paginator';
 import { usePagedMedia } from '@/models/hooks/usePagedMedia';
+
+const PAGE_SIZE = 18;
 
 export default function Page() {
   // extract search params
   const searchParams = useSearchParams();
-  const mediaIdStr = searchParams.get('id');
+  const extractParam = (key: string) => {
+    const param = searchParams.get(key);
+    return param ? parseInt(param) : undefined;
+  };
+
+  const page = extractParam('page') || 1;
+  const mediaId = extractParam('id');
+
+  // helper to generate a URL with modified search params
+  const formSearchWith = (key: string, value: string | undefined) => {
+    const params = new URLSearchParams(window.location.search);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    return `?${params.toString()}`;
+  };
 
   // fetch the current page of media
-  const { data, loading, error } = usePagedMedia({ page: 1, perPage: 24 });
+  const { data, loading, error } = usePagedMedia({ page, perPage: PAGE_SIZE });
 
   // render page
   return (
     <PageFrame>
       <Stack gap={{ base: 6, md: 8 }}>
-        {/* heading */}
-        <Heading
-          as='h1'
-          fontSize={{ base: 'xl', sm: '2xl', md: '3xl', lg: '4xl' }}
-          fontWeight='bold'
-          textAlign='center'
-          lineHeight='shorter'
-        >
-          Trending Now
-        </Heading>
-
         {/* loading indicator */}
         {loading && (
           <Box alignItems='center' justifyItems='center' px={6} py={20}>
@@ -71,7 +80,7 @@ export default function Page() {
                 <GridItem key={media.id}>
                   <Link
                     href={{
-                      search: `id=${media.id}`,
+                      search: formSearchWith('id', String(media.id)),
                     }}
                   >
                     <MediaCover media={media} />
@@ -80,18 +89,21 @@ export default function Page() {
               ),
           )}
         </Grid>
+
+        {/* pagination control */}
+        <Box justifyItems='center'>
+          {data?.pageInfo && (
+            <Paginator
+              page={page}
+              count={data.pageInfo.total ?? 0}
+              onPageChange={(nextPage) => redirect(formSearchWith('page', String(nextPage)))}
+            />
+          )}
+        </Box>
       </Stack>
 
       {/* media details dialog */}
-      <MediaDetailsDialog
-        mediaId={mediaIdStr ? parseInt(mediaIdStr) : undefined}
-        onClose={() => {
-          // remove the id param to close the dialog
-          const params = new URLSearchParams(window.location.search);
-          params.delete('id');
-          redirect(`?${params.toString()}`);
-        }}
-      />
+      <MediaDetailsDialog mediaId={mediaId} onClose={() => redirect(formSearchWith('id', undefined))} />
     </PageFrame>
   );
 }

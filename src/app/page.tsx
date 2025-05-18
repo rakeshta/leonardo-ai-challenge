@@ -1,12 +1,14 @@
 import { redirect } from 'next/navigation';
 
+import { Box } from '@chakra-ui/react';
+
 export default async function Page() {
   // redirect to /media
   redirect('/media');
 
   return (
-    <div>
+    <Box>
       <h1>Redirecting...</h1>
-    </div>
+    </Box>
   );
 }

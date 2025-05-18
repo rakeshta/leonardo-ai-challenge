@@ -48,6 +48,7 @@ export function useMediaDetails({ mediaId }: MediaDetailsDialogProps) {
     variables: {
       mediaId,
     },
+    skip: !mediaId,
   });
   return {
     ...res,
