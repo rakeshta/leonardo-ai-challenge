@@ -3,8 +3,8 @@ import { Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
 
 import { MediaSort } from '@/__generated__/graphql';
 import { query } from '@/components/apollo';
+import { MediaCover } from '@/components/content/MediaCover';
 import { PageFrame } from '@/components/layout/PageFrame';
-import { MediaCover } from '@/components/widgets/MediaCover';
 import { GQL_PAGED_MEDIA } from '@/models/queries/paged-media';
 
 export default async function Page() {
@@ -52,7 +52,7 @@ export default async function Page() {
             (media) =>
               media && (
                 <GridItem key={media.id}>
-                  <MediaCover title={media.title?.english ?? '-'} thumbnailUrl={media.coverImage?.extraLarge ?? ''} />
+                  <MediaCover media={media} />
                 </GridItem>
               ),
           )}
