@@ -5,7 +5,7 @@ import { MediaSort } from '@/__generated__/graphql';
 
 // Query to fetch a page of media with minimal fields
 const GQL_PAGED_MEDIA = gql(/* graphql */ `
-query PagedMedia($page: Int, $perPage: Int, $sort: [MediaSort]) {
+query PagedMedia($page: Int, $perPage: Int, $search: String, $sort: [MediaSort]) {
   Page(page: $page, perPage: $perPage) {
     pageInfo {
       currentPage
@@ -14,7 +14,7 @@ query PagedMedia($page: Int, $perPage: Int, $sort: [MediaSort]) {
       perPage
       lastPage
     }
-    media(sort: $sort) {
+    media(sort: $sort, search: $search) {
       id
       title {
         english
@@ -57,8 +57,13 @@ export interface UsePagedMediaParams {
   perPage?: number;
 
   /**
+   * Optional search term to filter media.
+   */
+  search?: string;
+
+  /**
    * Sort order for the media.
-   * @default [MediaSort.TrendingDesc]
+   * @default When search term provided it iss [MediaSort.SearchMatch]; else it is [MediaSort.TrendingDesc]
    */
   sort?: MediaSort[];
 }
@@ -66,11 +71,17 @@ export interface UsePagedMediaParams {
 /**
  * Fetches a page of media from the API.
  */
-export function usePagedMedia({ page, perPage = 20, sort = [MediaSort.TrendingDesc] }: UsePagedMediaParams) {
+export function usePagedMedia({
+  page,
+  perPage = 20,
+  search,
+  sort = search ? [MediaSort.SearchMatch] : [MediaSort.TrendingDesc],
+}: UsePagedMediaParams) {
   const res = useQuery(GQL_PAGED_MEDIA, {
     variables: {
       page,
       perPage,
+      search,
       sort,
     },
   });

@@ -21,6 +21,7 @@ export default function Page() {
     return param ? parseInt(param) : undefined;
   };
 
+  const search = searchParams.get('search') || undefined;
   const page = extractParam('page') || 1;
   const mediaId = extractParam('id');
 
@@ -36,11 +37,11 @@ export default function Page() {
   };
 
   // fetch the current page of media
-  const { data, loading, error } = usePagedMedia({ page, perPage: PAGE_SIZE });
+  const { data, loading, error } = usePagedMedia({ search, page, perPage: PAGE_SIZE });
 
   // render page
   return (
-    <PageFrame>
+    <PageFrame searchBar={true}>
       <Stack gap={{ base: 6, md: 8 }}>
         {/* loading indicator */}
         {loading && (
