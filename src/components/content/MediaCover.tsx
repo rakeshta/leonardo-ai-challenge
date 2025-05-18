@@ -12,15 +12,14 @@ export interface MediaCoverProps {
 
 export function MediaCover({ media }: MediaCoverProps) {
   return (
-    <Box position='relative' cursor='pointer'>
+    <Box position='relative' cursor='pointer' transition='all 0.3s ease' transform={{ _hover: 'translateY(-5px)' }}>
       <Flex direction='column' gap={2}>
         <AspectRatio ratio={460 / 650} width='100%' borderRadius='lg' overflow='hidden'>
           <Image
+            style={{ objectFit: 'cover' }}
             src={media.coverImage?.extraLarge ?? ''}
             alt={media.title?.english ?? 'Cover image'}
             fill
-            style={{ objectFit: 'cover' }}
-            priority={false}
           />
         </AspectRatio>
         <Text
