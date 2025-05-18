@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { redirect, useSearchParams } from 'next/navigation';
 
-import { Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
+import { Alert, Box, Grid, GridItem, Heading, Stack, Text } from '@chakra-ui/react';
 
 import { MediaCover } from '@/components/content/MediaCover';
 import { MediaDetailsDialog } from '@/components/content/MediaDetailsDialog';
@@ -11,18 +11,17 @@ import { PageFrame } from '@/components/layout/PageFrame';
 import { usePagedMedia } from '@/models/hooks/usePagedMedia';
 
 export default function Page() {
-  // fetch the current page of media
-  const { data, loading, error } = usePagedMedia({ page: 1 });
-  console.debug('--paged paged media query', { data, loading, error });
-
   // extract search params
   const searchParams = useSearchParams();
   const mediaIdStr = searchParams.get('id');
 
+  // fetch the current page of media
+  const { data, loading, error } = usePagedMedia({ page: 1, perPage: 24 });
+
   // render page
   return (
     <PageFrame>
-      <Flex direction='column' gap={{ base: 6, md: 8 }}>
+      <Stack gap={{ base: 6, md: 8 }}>
         {/* heading */}
         <Heading
           as='h1'
@@ -33,6 +32,28 @@ export default function Page() {
         >
           Trending Now
         </Heading>
+
+        {/* loading indicator */}
+        {loading && (
+          <Box alignItems='center' justifyItems='center' px={6} py={20}>
+            <Text fontSize='lg' color='gray.500'>
+              Loading...
+            </Text>
+          </Box>
+        )}
+
+        {/* error message */}
+        {error && (
+          <Box alignItems='center' justifyContent='center' px={6} py={20}>
+            <Alert.Root status='error'>
+              <Alert.Indicator />
+              <Alert.Content>
+                <Alert.Title>Error Loading Page</Alert.Title>
+                <Alert.Description>There was an error loading the page. Please try again later.</Alert.Description>
+              </Alert.Content>
+            </Alert.Root>
+          </Box>
+        )}
 
         {/* media grid */}
         <Grid
@@ -59,7 +80,7 @@ export default function Page() {
               ),
           )}
         </Grid>
-      </Flex>
+      </Stack>
 
       {/* media details dialog */}
       <MediaDetailsDialog
