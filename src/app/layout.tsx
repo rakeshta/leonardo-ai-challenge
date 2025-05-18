@@ -12,7 +12,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Leonardo.Anime',
-  description: 'A coding challenge by Rakesh Ayyaswami',
+  description: 'Discover Your Next Favorite Anime & Manga',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

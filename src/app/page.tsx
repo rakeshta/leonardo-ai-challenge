@@ -1,24 +1,62 @@
-import { Flex, Text } from '@chakra-ui/react';
+// 'use client';
+import { Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
 
+import { MediaSort } from '@/__generated__/graphql';
+import { query } from '@/components/apollo';
 import { PageFrame } from '@/components/layout/PageFrame';
+import { MediaCover } from '@/components/widgets/MediaCover';
+import { GQL_PAGED_MEDIA } from '@/models/queries/paged-media';
 
 export default async function Page() {
+  const { data, loading, error } = await query({
+    query: GQL_PAGED_MEDIA,
+    variables: {
+      page: 1,
+      perPage: 20,
+      sort: [MediaSort.TrendingDesc],
+    },
+  });
+  console.debug('--paged media query', { data, loading, error });
+
+  // const { data, loading, error } = useQuery(GQL_PAGED_MEDIA, {
+  //   variables: {
+  //     page: 1,
+  //     perPage: 20,
+  //     sort: [MediaSort.TrendingDesc],
+  //   },
+  // });
+  // console.debug('--paged media query', { data: data?.Page?.media?.[0], loading, error });
+
   return (
     <PageFrame>
       <Flex direction='column' gap={{ base: 6, md: 8 }}>
-        <Text
+        <Heading
+          as='h1'
           fontSize={{ base: 'xl', sm: '2xl', md: '3xl', lg: '4xl' }}
           fontWeight='bold'
           textAlign='center'
           lineHeight='shorter'
         >
-          Discover Your Next Favorite Anime & Manga
-        </Text>
-        <Text color='gray.500' textAlign='center' fontSize={{ base: 'md', md: 'lg' }} px={{ base: 0, md: 8, lg: 16 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-        </Text>
+          Trending Now
+        </Heading>
+        <Grid
+          templateColumns={{
+            base: 'repeat(2, 1fr)', // 2 items per row on mobile
+            sm: 'repeat(3, 1fr)', // 3 items per row on small devices
+            md: 'repeat(4, 1fr)', // 3 items per row on medium devices
+            lg: 'repeat(6, 1fr)', // 6 items per row on large devices
+          }}
+          gap={4}
+        >
+          {data?.Page?.media?.map(
+            (media) =>
+              media && (
+                <GridItem key={media.id}>
+                  <MediaCover title={media.title?.english ?? '-'} thumbnailUrl={media.coverImage?.extraLarge ?? ''} />
+                </GridItem>
+              ),
+          )}
+        </Grid>
       </Flex>
     </PageFrame>
   );
