@@ -18,6 +18,7 @@ query PagedMedia($page: Int, $perPage: Int, $sort: [MediaSort]) {
       id
       title {
         english
+        native
       }
       description
       genres

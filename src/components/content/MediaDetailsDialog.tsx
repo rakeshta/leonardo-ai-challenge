@@ -59,7 +59,7 @@ export function MediaDetailsDialog({ mediaId, onClose }: MediaDetailsDialogProps
                   <AspectRatio ratio={20 / 6} width='full' overflow='hidden'>
                     <Image
                       src={media.bannerImage}
-                      alt={media.title?.english || ''}
+                      alt={media.title?.english || media.title?.native || 'Banner image'}
                       fill
                       style={{ objectFit: 'cover' }}
                     />
@@ -73,7 +73,7 @@ export function MediaDetailsDialog({ mediaId, onClose }: MediaDetailsDialogProps
                     <AspectRatio display={{ mdDown: 'none' }} ratio={2 / 3} width='200px' flexShrink={0}>
                       <Image
                         src={media.coverImage.extraLarge}
-                        alt={media.title?.english || ''}
+                        alt={media.title?.english || media.title?.native || 'Cover image'}
                         fill
                         style={{ objectFit: 'cover', borderRadius: '8px' }}
                       />
@@ -83,7 +83,7 @@ export function MediaDetailsDialog({ mediaId, onClose }: MediaDetailsDialogProps
                   <Stack gap={4} flex={1}>
                     {/* title */}
                     <Text as='h2' fontSize='2xl' fontWeight='bold'>
-                      {media.title?.english}
+                      {media.title?.english || media.title?.native || 'Unknown Title'}
                     </Text>
 
                     {/* type, adult rating, score & tags */}

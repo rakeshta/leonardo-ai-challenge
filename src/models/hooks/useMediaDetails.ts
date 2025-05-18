@@ -9,6 +9,7 @@ query Media($mediaId: Int) {
       id
       title {
         english
+        native
       }
       description
       genres

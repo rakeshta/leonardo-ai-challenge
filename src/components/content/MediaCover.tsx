@@ -23,7 +23,7 @@ export function MediaCover({ media }: MediaCoverProps) {
         <Image
           style={{ objectFit: 'cover' }}
           src={media.coverImage?.extraLarge ?? ''}
-          alt={media.title?.english ?? 'Cover image'}
+          alt={media.title?.english ?? media.title?.native ?? 'Cover image'}
           fill
         />
       </AspectRatio>
@@ -38,7 +38,7 @@ export function MediaCover({ media }: MediaCoverProps) {
         paddingY={1}
         textAlign='center'
       >
-        {media.title?.english ?? 'Unknown Title'}
+        {media.title?.english ?? media.title?.native ?? 'Unknown Title'}
       </Text>
     </Flex>
   );
