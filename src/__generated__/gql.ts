@@ -14,9 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "\nquery Media($mediaId: Int) {\n  Media(id: $mediaId) {\n      id\n      title {\n        english\n      }\n      description\n      genres\n      isAdult\n      meanScore\n      startDate {\n        year\n        month\n        day\n      }\n      endDate {\n        year\n        month\n        day\n      }\n      type\n      coverImage {\n        color\n        extraLarge\n      }\n      bannerImage\n  }\n}\n": typeof types.MediaDocument,
     "\nquery PagedMedia($page: Int, $perPage: Int, $sort: [MediaSort]) {\n  Page(page: $page, perPage: $perPage) {\n    pageInfo {\n      currentPage\n      hasNextPage\n      total\n      perPage\n      lastPage\n    }\n    media(sort: $sort) {\n      id\n      title {\n        english\n      }\n      description\n      genres\n      isAdult\n      meanScore\n      startDate {\n        year\n        month\n        day\n      }\n      endDate {\n        year\n        month\n        day\n      }\n      type\n      coverImage {\n        color\n        extraLarge\n      }\n      bannerImage\n    }\n  }\n}\n": typeof types.PagedMediaDocument,
 };
 const documents: Documents = {
+    "\nquery Media($mediaId: Int) {\n  Media(id: $mediaId) {\n      id\n      title {\n        english\n      }\n      description\n      genres\n      isAdult\n      meanScore\n      startDate {\n        year\n        month\n        day\n      }\n      endDate {\n        year\n        month\n        day\n      }\n      type\n      coverImage {\n        color\n        extraLarge\n      }\n      bannerImage\n  }\n}\n": types.MediaDocument,
     "\nquery PagedMedia($page: Int, $perPage: Int, $sort: [MediaSort]) {\n  Page(page: $page, perPage: $perPage) {\n    pageInfo {\n      currentPage\n      hasNextPage\n      total\n      perPage\n      lastPage\n    }\n    media(sort: $sort) {\n      id\n      title {\n        english\n      }\n      description\n      genres\n      isAdult\n      meanScore\n      startDate {\n        year\n        month\n        day\n      }\n      endDate {\n        year\n        month\n        day\n      }\n      type\n      coverImage {\n        color\n        extraLarge\n      }\n      bannerImage\n    }\n  }\n}\n": types.PagedMediaDocument,
 };
 
@@ -34,6 +36,10 @@ const documents: Documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery Media($mediaId: Int) {\n  Media(id: $mediaId) {\n      id\n      title {\n        english\n      }\n      description\n      genres\n      isAdult\n      meanScore\n      startDate {\n        year\n        month\n        day\n      }\n      endDate {\n        year\n        month\n        day\n      }\n      type\n      coverImage {\n        color\n        extraLarge\n      }\n      bannerImage\n  }\n}\n"): (typeof documents)["\nquery Media($mediaId: Int) {\n  Media(id: $mediaId) {\n      id\n      title {\n        english\n      }\n      description\n      genres\n      isAdult\n      meanScore\n      startDate {\n        year\n        month\n        day\n      }\n      endDate {\n        year\n        month\n        day\n      }\n      type\n      coverImage {\n        color\n        extraLarge\n      }\n      bannerImage\n  }\n}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

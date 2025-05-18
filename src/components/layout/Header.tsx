@@ -1,6 +1,7 @@
-import { Box, Container, Flex, Input, Text } from '@chakra-ui/react';
-
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { Box, Container, Flex, Input, Text } from '@chakra-ui/react';
 
 import { ColorModeButton } from '@/components/chakra-ui/color-mode';
 
@@ -10,18 +11,20 @@ export function Header() {
       <Container maxW='7xl'>
         <Flex gap={{ base: 4, md: 0 }} justify='space-between' align='stretch'>
           {/* Brand/Logo */}
-          <Flex gap={3} align='center' justify='flex-start'>
-            <Box boxSize={{ base: 8, md: 10 }} position='relative'>
-              <Image src='/images/leonardo-logo.png' alt='Leonardo Logo' width='64' height='64' />
-            </Box>
-            <Text display={{ smDown: 'none' }} fontSize={{ base: 'lg', md: 'xl' }} fontWeight='bold'>
-              Leonardo.Anime
-            </Text>
-          </Flex>
+          <Link href='/media'>
+            <Flex gap={3} align='center' justify='flex-start'>
+              <Box boxSize={{ base: 8, md: 10 }} position='relative'>
+                <Image src='/images/leonardo-logo.png' alt='Leonardo Logo' width='64' height='64' />
+              </Box>
+              <Text display={{ smDown: 'none' }} fontSize={{ base: 'lg', md: 'xl' }} fontWeight='bold'>
+                Leonardo.Anime
+              </Text>
+            </Flex>
+          </Link>
 
           {/* Search Box - Desktop */}
           <Box display={{ mdDown: 'none' }} flex={1} maxW='2xl' mx={8}>
-            <Input placeholder='Search anime, manga or characters...' size='lg' variant='outline' borderRadius='full' />
+            <Input placeholder='Search anime or manga...' size='lg' variant='outline' borderRadius='full' />
           </Box>
 
           {/* Profile & Theme */}
@@ -39,9 +42,9 @@ export function Header() {
           </Flex>
         </Flex>
 
-        {/* Search Box - Desktop */}
+        {/* Search Box - Mobile */}
         <Box display={{ md: 'none' }} flex={1} mt={2}>
-          <Input placeholder='Search anime, manga or characters...' size='md' variant='outline' borderRadius='full' />
+          <Input placeholder='Search anime or manga...' size='md' variant='outline' borderRadius='full' />
         </Box>
       </Container>
     </Box>
