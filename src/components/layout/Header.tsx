@@ -54,7 +54,7 @@ export function Header({ searchBar }: HeaderProps) {
 
   // if user profile not set, redirect to profile page
   const pathname = usePathname();
-  if (!userProfile && pathname !== '/profile') {
+  if (typeof window !== 'undefined' && !userProfile && pathname !== '/profile') {
     redirect('/profile?return=' + encodeURIComponent(pathname + window.location.search));
   }
 
