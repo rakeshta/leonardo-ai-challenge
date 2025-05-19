@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { redirect, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Suspense } from 'react';
 
@@ -16,6 +16,9 @@ import { usePagedMedia } from '@/models/hooks/usePagedMedia';
 const PAGE_SIZE = 24;
 
 function MediaPage() {
+  // router for navigation
+  const router = useRouter();
+
   // extract search params
   const searchParams = useSearchParams();
   const extractParam = (key: string) => {
@@ -85,6 +88,7 @@ function MediaPage() {
                     href={{
                       search: formSearchWith('id', String(media.id)),
                     }}
+                    scroll={false}
                   >
                     <MediaCover media={media} />
                   </Link>
@@ -99,14 +103,17 @@ function MediaPage() {
             <Paginator
               page={page}
               count={data.pageInfo.total ?? 0}
-              onPageChange={(nextPage) => redirect(formSearchWith('page', String(nextPage)))}
+              onPageChange={(nextPage) => router.push(formSearchWith('page', String(nextPage)))}
             />
           )}
         </Box>
       </Stack>
 
       {/* media details dialog */}
-      <MediaDetailsDialog mediaId={mediaId} onClose={() => redirect(formSearchWith('id', undefined))} />
+      <MediaDetailsDialog
+        mediaId={mediaId}
+        onClose={() => router.push(formSearchWith('id', undefined), { scroll: false })}
+      />
     </PageFrame>
   );
 }
