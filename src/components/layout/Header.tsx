@@ -6,11 +6,12 @@ import { redirect } from 'next/navigation';
 
 import { useState } from 'react';
 
-import { Box, Container, Flex, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Input, Stack, Text } from '@chakra-ui/react';
 
 import debounce from 'lodash/debounce';
 
 import { ColorModeButton } from '@/components/chakra-ui/color-mode';
+import { useUserProfile } from '@/models/hooks/useUserProfile';
 
 export interface HeaderProps {
   searchBar?: boolean;
@@ -48,6 +49,9 @@ export function Header({ searchBar }: HeaderProps) {
     updateUrlSearch(value); // update URL params with a debounce to avoid too many API calls
   };
 
+  // user profile
+  const [userProfile] = useUserProfile();
+
   // render header
   return (
     <Box w='full' borderBottomWidth={1} py={{ base: 3, md: 4 }} px={{ base: 4, md: 6 }}>
@@ -82,12 +86,18 @@ export function Header({ searchBar }: HeaderProps) {
           {/* Profile & Theme */}
           <Flex gap={4} align='center' justify='flex-end'>
             {/* Profile */}
-            <Flex direction='column' align={{ base: 'center', md: 'flex-end' }}>
-              <Text fontWeight='semibold'>Guest User</Text>
-              <Text fontSize='sm' color='gray.500'>
-                My Profile
-              </Text>
-            </Flex>
+            {userProfile && (
+              <Link href='/profile' passHref>
+                <Button as='a' variant='ghost' px={2} py={6}>
+                  <Stack gap={0} align={{ base: 'center', md: 'flex-end' }}>
+                    <Text fontWeight='semibold'>{userProfile.username}</Text>
+                    <Text fontSize='sm' color='gray.500'>
+                      {userProfile.jobTitle}
+                    </Text>
+                  </Stack>
+                </Button>
+              </Link>
+            )}
 
             {/* Theme Toggle Button */}
             <ColorModeButton />

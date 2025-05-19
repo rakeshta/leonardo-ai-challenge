@@ -52,8 +52,11 @@ export default function Page() {
 
   // handle form submission
   const onSubmit = (data: UserProfile) => {
-    console.log('Form submitted with values:', data);
-    setUserProfile(data); // save to local storage
+    // save the user profile to local storage
+    setUserProfile(data);
+
+    // navigate to the media page
+    redirect('/media');
   };
 
   // render page
