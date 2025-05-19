@@ -1,6 +1,6 @@
 'use client';
 
-import { redirect } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 
 import { useCallback } from 'react';
 
@@ -35,6 +35,10 @@ export default function Page() {
     defaultValues: DEFAULT_VALUES,
   });
 
+  // the path to redirect to after saving or cancelling
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('return') || '/media';
+
   // handle cancellation
   const onCancel = useCallback(() => {
     // abort if no user profile
@@ -46,17 +50,17 @@ export default function Page() {
     setValue('username', userProfile.username);
     setValue('jobTitle', userProfile.jobTitle);
 
-    // navigate to the media page
-    redirect('/media');
-  }, [userProfile, setValue]);
+    // return to the previous page
+    redirect(returnTo);
+  }, [userProfile, setValue, returnTo]);
 
   // handle form submission
   const onSubmit = (data: UserProfile) => {
     // save the user profile to local storage
     setUserProfile(data);
 
-    // navigate to the media page
-    redirect('/media');
+    // return to the previous page
+    redirect(returnTo);
   };
 
   // render page

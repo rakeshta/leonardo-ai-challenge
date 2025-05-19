@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 
 import { useState } from 'react';
 
@@ -51,6 +51,12 @@ export function Header({ searchBar }: HeaderProps) {
 
   // user profile
   const [userProfile] = useUserProfile();
+
+  // if user profile not set, redirect to profile page
+  const pathname = usePathname();
+  if (!userProfile && pathname !== '/profile') {
+    redirect('/profile?return=' + encodeURIComponent(pathname + window.location.search));
+  }
 
   // render header
   return (
