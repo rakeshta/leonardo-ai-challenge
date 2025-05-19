@@ -11,7 +11,7 @@ import { PageFrame } from '@/components/layout/PageFrame';
 import { Paginator } from '@/components/widgets/Paginator';
 import { usePagedMedia } from '@/models/hooks/usePagedMedia';
 
-const PAGE_SIZE = 18;
+const PAGE_SIZE = 24;
 
 export default function Page() {
   // extract search params
