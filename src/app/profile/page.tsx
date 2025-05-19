@@ -1,48 +1,59 @@
 'use client';
 
+import { redirect } from 'next/navigation';
+
+import { useCallback } from 'react';
+
 import { useForm } from 'react-hook-form';
 
 import { Box, Button, Container, Field, Fieldset, Heading, Input, Stack, Text } from '@chakra-ui/react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 import { PageFrame } from '@/components/layout/PageFrame';
+import { USER_PROFILE_VALIDATION_SCHEMA, UserProfile } from '@/models/data/user-profile';
+import { useUserProfile } from '@/models/hooks/useUserProfile';
 
-// form validation schema
-const profileSchema = yup.object({
-  username: yup
-    .string()
-    .required('Username is required')
-    .min(3, 'Username must be at least 3 characters')
-    .max(20, 'Username must be less than 20 characters'),
-  jobTitle: yup
-    .string()
-    .required('Job title is required')
-    .min(2, 'Job title must be at least 2 characters')
-    .max(100, 'Job title must be less than 100 characters'),
-});
-
-// type for our form data
-type ProfileFormData = yup.InferType<typeof profileSchema>;
+const DEFAULT_VALUES: UserProfile = {
+  username: '',
+  jobTitle: '',
+};
 
 export default function Page() {
+  // use local storage to persist the user profile
+  const [userProfile, setUserProfile] = useUserProfile();
+
   // use react-hook-form to manage form state
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<ProfileFormData>({
-    resolver: yupResolver(profileSchema),
-    defaultValues: {
-      username: '',
-      jobTitle: '',
-    },
+  } = useForm<UserProfile>({
+    resolver: yupResolver(USER_PROFILE_VALIDATION_SCHEMA),
+    values: userProfile || DEFAULT_VALUES,
+    defaultValues: DEFAULT_VALUES,
   });
 
+  // handle cancellation
+  const onCancel = useCallback(() => {
+    // abort if no user profile
+    if (!userProfile) {
+      return;
+    }
+
+    // reset form values to saved state
+    setValue('username', userProfile.username);
+    setValue('jobTitle', userProfile.jobTitle);
+
+    // navigate to the media page
+    redirect('/media');
+  }, [userProfile, setValue]);
+
   // handle form submission
-  const onSubmit = (data: ProfileFormData) => {
+  const onSubmit = (data: UserProfile) => {
     console.log('Form submitted with values:', data);
+    setUserProfile(data); // save to local storage
   };
 
   // render page
@@ -92,7 +103,7 @@ export default function Page() {
             justifyContent='flex-end'
             paddingTop={4}
           >
-            <Button variant='outline' minW='32'>
+            <Button variant='outline' minW='32' disabled={!userProfile} onClick={onCancel}>
               Cancel
             </Button>
             <Button type='submit' minW='32' loading={isSubmitting}>
