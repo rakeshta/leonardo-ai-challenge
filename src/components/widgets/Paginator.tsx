@@ -12,7 +12,13 @@ export interface PaginatorProps {
 
 export function Paginator({ page, count, onPageChange }: PaginatorProps) {
   return (
-    <Pagination.Root count={count} page={page} onPageChange={(e) => onPageChange(e.page)}>
+    <Pagination.Root
+      display='flex'
+      justifyContent='center'
+      count={count}
+      page={page}
+      onPageChange={(e) => onPageChange(e.page)}
+    >
       <ButtonGroup variant='ghost' size='sm'>
         <Pagination.PrevTrigger asChild>
           <IconButton>
