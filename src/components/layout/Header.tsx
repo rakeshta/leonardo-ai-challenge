@@ -93,16 +93,16 @@ export function Header({ searchBar }: HeaderProps) {
           <Flex gap={4} align='center' justify='flex-end'>
             {/* Profile */}
             {userProfile && (
-              <Link href='/profile' passHref>
-                <Button as='a' variant='ghost' px={2} py={6}>
+              <Button asChild variant='ghost' px={2} py={6}>
+                <Link href='/profile'>
                   <Stack gap={0} align={{ base: 'center', md: 'flex-end' }}>
                     <Text fontWeight='semibold'>{userProfile.username}</Text>
                     <Text fontSize='sm' color='gray.500'>
                       {userProfile.jobTitle}
                     </Text>
                   </Stack>
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             )}
 
             {/* Theme Toggle Button */}
