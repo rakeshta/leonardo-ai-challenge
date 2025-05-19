@@ -19,12 +19,14 @@ export function MediaCover({ media }: MediaCoverProps) {
       transition='all 0.3s ease'
       transform={{ _hover: 'translateY(-5px)' }}
     >
-      <AspectRatio ratio={460 / 650} width='100%' borderRadius='lg' overflow='hidden'>
+      <AspectRatio ratio={460 / 650} width='100%' borderRadius='lg' overflow='hidden' position='relative'>
         <Image
           style={{ objectFit: 'cover' }}
           src={media.coverImage?.extraLarge ?? ''}
           alt={media.title?.english ?? media.title?.native ?? 'Cover image'}
           fill
+          sizes='(max-width: 480px) 50vw, (max-width: 768px) 30vw, (max-width: 1024) 25vw, 18vw'
+          priority
         />
       </AspectRatio>
       <Text
