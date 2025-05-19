@@ -2,7 +2,7 @@
 
 import { redirect, useSearchParams } from 'next/navigation';
 
-import { useCallback } from 'react';
+import { Suspense, useCallback } from 'react';
 
 import { useForm } from 'react-hook-form';
 
@@ -19,7 +19,7 @@ const DEFAULT_VALUES: UserProfile = {
   jobTitle: '',
 };
 
-export default function Page() {
+function UserProfilePage() {
   // use local storage to persist the user profile
   const [userProfile, setUserProfile] = useUserProfile();
 
@@ -120,5 +120,13 @@ export default function Page() {
         </Box>
       </Container>
     </PageFrame>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <UserProfilePage />
+    </Suspense>
   );
 }

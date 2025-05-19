@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { redirect, useSearchParams } from 'next/navigation';
 
+import { Suspense } from 'react';
+
 import { Alert, Box, Grid, GridItem, Stack, Text } from '@chakra-ui/react';
 
 import { MediaCover } from '@/components/content/MediaCover';
@@ -13,7 +15,7 @@ import { usePagedMedia } from '@/models/hooks/usePagedMedia';
 
 const PAGE_SIZE = 24;
 
-export default function Page() {
+function MediaPage() {
   // extract search params
   const searchParams = useSearchParams();
   const extractParam = (key: string) => {
@@ -106,5 +108,13 @@ export default function Page() {
       {/* media details dialog */}
       <MediaDetailsDialog mediaId={mediaId} onClose={() => redirect(formSearchWith('id', undefined))} />
     </PageFrame>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MediaPage />
+    </Suspense>
   );
 }
