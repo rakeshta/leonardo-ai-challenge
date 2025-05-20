@@ -44,9 +44,9 @@ export function Header({ searchBar }: HeaderProps) {
 
   // handle search change
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.trim();
+    const value = event.target.value;
     setSearch(value);
-    updateUrlSearch(value); // update URL params with a debounce to avoid too many API calls
+    updateUrlSearch(value.trim()); // update URL params with a debounce to avoid too many API calls
   };
 
   // user profile
